@@ -56,7 +56,7 @@ int main()
 {  
 	try
 	{
-		DllFile demo_file("dllfile1.dll");
+		DllFile demo_file("dllfile.dll");
 		std::cout << demo_file.CallFunction("HelloWorld") << std::endl;
 	}
 	catch(std::exception &e)
