@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="dllfile"
-	ProjectGUID="{2C9BF6CE-319E-41BC-83E0-AA1BDA472B54}"
-	RootNamespace="dllfile"
+	Name="dllfile2"
+	ProjectGUID="{3E485081-26C9-474D-857B-05E72B0BAAFA}"
+	RootNamespace="dllfile2"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
@@ -20,7 +20,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="2"
-			CharacterSet="2"
+			CharacterSet="1"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..\corefile"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DLLFILE_EXPORTS"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;DLLFILE2_EXPORTS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -116,7 +116,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DLLFILE_EXPORTS"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;DLLFILE2_EXPORTS"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -176,7 +176,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\plugin1.cpp"
+				RelativePath=".\plugin2.cpp"
 				>
 			</File>
 			<File
@@ -191,10 +191,6 @@
 			>
 			<File
 				RelativePath="..\corefile\defines.h"
-				>
-			</File>
-			<File
-				RelativePath=".\plugin1.h"
 				>
 			</File>
 			<File

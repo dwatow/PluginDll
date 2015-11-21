@@ -1,69 +1,62 @@
-#include "dll_hello_world.h"
-#include <exception>
+#include "coreapi.h"
 #include <string>
 #include <iostream>
 #include <Windows.h>
 
 
-class DllFile
+typedef IRenderer *(*CreateRendererFunc)();
+typedef const char *(*RendererNameStr)() ;
+//typedef void (*DestroyRendererFunc)(IRenderer *r);
+//typedef FARPROC PluginFunc;
+
+std::string LoadPlugIn(const std::string& dll_name)
 {
-	typedef const char *(*CreateCallBack)();  
-	CreateCallBack call_function;
-	HINSTANCE dll_core;
-public:
-	DllFile(const std::string &dll_filename)
-	try
+	HINSTANCE handle = LoadLibrary(dll_name.data());
+	if (handle == 0)
 	{
-		dll_core = LoadLibrary(dll_filename.data());
-
-		if (dll_core == 0)
-		{
-			throw std::exception("load Dll not success.");
-		}
+		std::cout << "LoadLibrary is false." << std::endl;
+		return "";
 	}
-	catch(std::exception &e)
+	else
 	{
-		FreeLibrary(dll_core);
-		throw ;
-	}
-	catch(...)
-	{
-		FreeLibrary(dll_core);
-		throw std::exception("initial DLL false.");
+		std::cout << "LoadLibrary is success." << std::endl;
 	}
 
-	~DllFile()
+	CreateRendererFunc create_renderer = (CreateRendererFunc)GetProcAddress(handle, "CreateRenderer");
+	RendererNameStr name_string = (RendererNameStr)GetProcAddress(handle, "DisplayName");
+	std::string display_name(name_string());
+	if (create_renderer == 0 || name_string == 0)
 	{
-		FreeLibrary(dll_core);
+		std::cout << "GetProcAddress is false." << std::endl;
+		return "";
 	}
+	else
+	{
+		std::cout << "GetProcAddress is success." << std::endl;
+		RendererFactory::RegisterRenderer(display_name, create_renderer);
+	}
+	return display_name;
+}
 
-	const char* CallFunction(const std::string &symbolname)
-	{
-		call_function = (CreateCallBack)GetProcAddress(dll_core, symbolname.data());  
-		if (call_function == 0)
-		{  
-			FreeLibrary(dll_core);
-			throw std::exception("can not function of DLL.");
-		} 
-		else
-		{
-			return call_function();
-		}
-	}
-};
+
+void CallRanderer(const std::string& str)
+{
+	IRenderer* r = RendererFactory::CreateRenderer(str);
+	r->Render();
+	delete r;
+}
 
 int main()
-{  
-	try
-	{
-		DllFile demo_file("dllfile.dll");
-		std::cout << demo_file.CallFunction("HelloWorld") << std::endl;
-	}
-	catch(std::exception &e)
-	{
-		std::cout << "ERROR: " << e.what() << std::endl;
-	}
-	system("PAUSE");
+{
+	std::string dll_name1;
+	std::string dll_name2;
 
-	return 0;  
-}  
+	dll_name1 = LoadPlugIn("my_dll_code.dll");
+	dll_name2 = LoadPlugIn("my_dll2.dll");
+
+	CallRanderer(dll_name1);
+	CallRanderer(dll_name2);
+
+	system("pause");
+	return 0;
+}
